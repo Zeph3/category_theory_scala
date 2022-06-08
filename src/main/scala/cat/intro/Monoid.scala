@@ -14,4 +14,13 @@ object Monoid {
 
     override def empty: Int = 0
   }
+
+  def foldAnyList[A](l: List[A], m: Monoid[A]): A = {
+    l.foldLeft(m.empty)(m.combine)
+  }
+
+  def reduceAnyList[A](l: List[A], m: Semigroup[A]): A = {
+    // assumption: size > 1, otherwise: UnsupportedOperationException("empty.reduceLeft")
+    l.reduce(m.combine)
+  }
 }

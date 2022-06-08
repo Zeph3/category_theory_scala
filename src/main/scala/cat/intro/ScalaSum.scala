@@ -5,25 +5,22 @@ import scala.util.Either
 sealed trait Either[+A, +B] {
   def isLeft: Boolean
   def isRight: Boolean
-  def map[C](f: B => C): Either[A, C] = this match {
-    case Right(b) => Right(f(b))
-    case _ => this.asInstanceOf[Either[A, C]]
-  }
-
-  def flatMap[A1 >: A, C](f: B => Either[A1,C]): Either[A1, C] = this match {
-    case Right(b) => f(b)
-    case _ => this.asInstanceOf[Either[A, C]]
-  }
+  def map[C](f: B => C): Either[A, C]
+  def flatMap[A1 >: A, C](f: B => Either[A1,C]): Either[A1, C]
 }
 
 final case class Right[+A, +B](value: B) extends Either[A, B] {
   override def isLeft: Boolean = false
   override def isRight: Boolean = true
+  override def map[C](f: B => C): Either[A, C] = Right(f(value))
+  override def flatMap[A1 >: A, C](f: B => Either[A1,C]): Either[A1, C] = f(value)
 }
 
 final case class Left[+A, +B](value: A) extends Either[A, B] {
   override def isLeft: Boolean = false
   override def isRight: Boolean = true
+  override def map[C](f: B => C): Either[A, C] = this.asInstanceOf[Either[A, C]]
+  override def flatMap[A1 >: A, C](f: B => Either[A1,C]): Either[A1, C] = this.asInstanceOf[Either[A, C]]
 }
 
 
