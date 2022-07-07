@@ -11,6 +11,7 @@ resolvers += ("Artima Maven Repository" at "https://repo.artima.com/releases")
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.11"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
+libraryDependencies += "org.typelevel" %% "cats-core" % "2.6.1"
 
 
 libraryDependencies ++= Seq(
